@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AP Cybersecurity — Unit 5: Securing Applications and Data</title>
+<style>
+/* ----------------------------------------------------
+LIGHT MODE (Default) - Earthy Sage & Bronze Palette
+---------------------------------------------------- */
+:root{
+  --bg: #ffe8d6;            /* Powder Petal */
+  --panel: #f5decc;         /* Softened Desert Sand */
+  --panel-raised: #ebd0bc;  /* Elevated card background */
+  --line: #b7b7a4;          /* Ash Grey borders */
+  --text: #2e3027;          /* High contrast deep olive text */
+  --text-dim: #6b705c;      /* Dusty Olive subtext */
+  --dim: #6b705c;           /* Legacy variable compatibility */
+  --accent: #b35e38;        /* Darkened Light Bronze (for high contrast text) */
+  --accent-dim: #a5a58d;    /* Dry Sage */
+  --adim: #a5a58d;          /* Legacy variable compatibility */
+  --warn: #c4763e;           /* Warning text */
+  --risk: #ba3c38;           /* Alert/Risk text */
+  --mono: "SFMono-Regular", "Consolas", "Liberation Mono", Menlo, monospace;
+  --sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+/* ----------------------------------------------------
+DARK MODE (Optional override)
+---------------------------------------------------- */
+:root[data-theme="dark"]{
+  --bg: #1c1e19;            /* Deep Olive Dark Background */
+  --panel: #272a23;         /* Dark Panel */
+  --panel-raised: #33372e;  /* Raised Dark Panel */
+  --line: #6b705c;          /* Dusty Olive borders */
+  --text: #ffe8d6;          /* Powder Petal text */
+  --text-dim: #b7b7a4;      /* Ash Grey subtext */
+  --dim: #b7b7a4;
+  --accent: #ddbea9;        /* Desert Sand accent */
+  --accent-dim: #cb997e;    /* Light Bronze */
+  --adim: #cb997e;
+  --warn: #e6b45e;
+  --risk: #e6605e;
+}
+  *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans)}body{padding-bottom:60px}::selection{background:var(--accent-dim);color:#fff}
+.top{position:sticky;top:0;z-index:50;background:var(--bg);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:16px 24px 13px}.path{font:11px var(--mono);color:var(--text-dim);letter-spacing:.04em}.path span{color:var(--accent)}.top h1{margin:0;font-size:18px;font-weight:650}.sub{font-size:12px;color:var(--text-dim)}
+.wrap{max-width:940px;margin:auto;padding:0 20px}.rail{display:flex;gap:6px;margin:18px 0 24px;flex-wrap:wrap}.rail button{flex:1;min-width:135px;background:var(--panel);border:1px solid var(--line);color:var(--text-dim);padding:8px 6px;border-radius:6px;cursor:pointer;font:10.5px var(--mono)}.rail button:hover{border-color:var(--accent-dim);color:var(--text)}.rail button.active{background:var(--panel-raised);border-color:var(--accent);color:var(--accent)}.rail .n{display:block;font-size:13px;font-weight:700;margin-bottom:2px}
+.foundation{margin:22px 0}.topic{display:none}.topic.active{display:block;animation:fade .18s ease}@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.head{border-left:3px solid var(--accent);padding:2px 0 2px 16px;margin-bottom:16px}.ey{font:11px var(--mono);color:var(--accent);letter-spacing:.08em;text-transform:uppercase}.head h2{margin:2px 0 6px;font-size:21px}.lo{font-size:13px;color:var(--text-dim);line-height:1.5}
+.label{font:11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);margin:26px 0 10px;padding-top:14px;border-top:1px solid var(--line)}.label:first-of-type{border-top:0;margin-top:0;padding-top:0}.label.sub{font-size:10px;color:var(--accent);border:0;margin:18px 0 8px;padding:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:17px 20px;margin-bottom:12px}.card h3{margin:0 0 9px;font-size:14px}.card h3:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:middle}.card p{font-size:14px;line-height:1.65;margin:0 0 9px}.card ul,.card ol{font-size:13.5px;line-height:1.65;margin:8px 0;padding-left:21px}.card li{margin-bottom:5px}.card b{color:var(--accent)}.ek{font:10px var(--mono);color:var(--text-dim);opacity:.7}
+table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;font:10.5px var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--text-dim);padding:7px 9px;border-bottom:1px solid var(--line)}td{padding:9px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.55}tr:last-child td{border-bottom:0}.term{color:var(--accent);font-weight:650;white-space:nowrap}
+.callout{background:color-mix(in srgb, var(--warn) 6%, transparent);border:1px solid var(--warn);border-radius:8px;padding:12px 14px;margin:12px 0;font-size:13.5px;line-height:1.6}.callout b{color:var(--warn)}.example{background:var(--panel-raised);border:1px dashed var(--accent-dim);border-radius:8px;padding:11px 14px;margin:10px 0;font-size:13px;line-height:1.6;color:var(--text-dim)}.code{font:12px var(--mono);white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);padding:11px;border-radius:7px;overflow:auto}.risk{font:10px var(--mono);padding:2px 7px;border:1px solid;border-radius:4px}.high{color:var(--risk)}.mod{color:var(--warn)}.low{color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.grid>div{background:var(--panel-raised);border:1px solid var(--line);border-radius:7px;padding:10px;font-size:13px;line-height:1.5}.grid b{display:block;font:10px var(--mono);color:var(--accent);margin-bottom:4px}
+.flow{font:13px var(--mono);line-height:1.7;background:var(--panel-raised);border:1px solid var(--line);padding:13px;border-radius:7px}.flow b{color:var(--accent)}
+.matrix td:first-child{color:var(--accent);font-weight:650}
+.foot{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:14px;border-top:1px solid var(--line)}.foot button{font:12px var(--mono);background:none;border:1px solid var(--line);color:var(--text-dim);padding:9px 16px;border-radius:7px;cursor:pointer}.foot button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}.foot button:disabled{opacity:.3}.pos{font:11px var(--mono);color:var(--text-dim)}
+@media(max-width:650px){.rail button{flex:1 1 42%}.grid{grid-template-columns:1fr}table{font-size:12px}.card{padding:15px}}
+</style>
+</head>
+<body>
+<div class="top"><div class="path">ap-cybersecurity <span>/</span> unit-5 <span>/</span> securing-applications-and-data</div><h1>Unit 5 — Securing Applications and Data</h1><div class="sub">~30 class periods · Analyze Risk · Mitigate Risk · Detect Attacks · Content-focused master study guide</div></div>
+
+<div class="wrap">
+<div class="foundation">
+<div class="head"><div class="ey">Unit foundation</div><h2>The final defense-in-depth layer: applications and data</h2><div class="lo">Unit 5 combines application security, file permissions, data classification, cryptography, secure development, and detection. For every scenario, trace the chain from asset → vulnerability → attack → impact → control → evidence.</div></div>
+<div class="card">
+<div class="flow"><b>Asset</b> → What application/data matters? → <b>Vulnerability</b> → What weakness exposes it? → <b>Attack</b> → How is it exploited? → <b>Impact</b> → Confidentiality / Integrity / Availability → <b>Control</b> → What interrupts the attack path? → <b>Evidence</b> → What logs, hashes, or access events reveal it?</div>
+<div class="callout"><b>Unit 5 distinction:</b> encryption protects confidentiality, hashing can verify integrity, access control governs who can perform operations, sanitization prevents malicious input from changing application behavior, and logging/detection provides evidence. Do not treat these controls as interchangeable.</div>
+</div>
+</div>
+
+<div class="rail" id="rail"></div>
+<div id="topics"></div>
+
+<div class="card">
+<div class="label" style="margin:0 0 10px;padding:0;border:0">UNIT 5 MASTERY MAP</div>
+<table class="matrix">
+<tr><th>Topic</th><th>You should be able to...</th></tr>
+<tr><td>5.1</td><td>Trace weak permissions, excessive privileges, and unvalidated input to SQL injection, XSS, buffer overflow, and directory traversal; assess CIA impact and risk.</td></tr>
+<tr><td>5.2</td><td>Distinguish data at rest/in transit/in use; recognize PII, PHI, and PCI; explain managerial policies; select RBAC, RuBAC, DAC, or MAC; configure Linux permissions with chmod.</td></tr>
+<tr><td>5.3</td><td>Explain plaintext, ciphertext, keys, keyspace, symmetric encryption, block vs. stream encryption, AES, and basic OpenSSL encryption/decryption.</td></tr>
+<tr><td>5.4</td><td>Use asymmetric public/private keys correctly; reason about key compromise and key length; apply RSA/ECC concepts and encrypted-message workflows.</td></tr>
+<tr><td>5.5</td><td>Explain secure by design, secure by default, and input sanitization, including how sanitization blocks SQL injection, XSS, and directory traversal.</td></tr>
+<tr><td>5.6</td><td>Detect data/application attacks with accounting logs, honeypots, hashes, DLP, and application logs; identify SQLi, XSS, buffer-overflow, and directory-traversal indicators.</td></tr>
+</table>
+</div>
+
+<div class="foot"><button id="prev">← prev</button><span class="pos" id="pos"></span><button id="next">next →</button></div>
+</div>
+
+<script>
+// Theme synchronization: the portal sends the active theme with postMessage.
+function applyTheme(theme){
+  const normalized = theme === "dark" ? "dark" : "light";
+  if(document.documentElement.getAttribute("data-theme") !== normalized){
+    document.documentElement.setAttribute("data-theme", normalized);
+  }
+}
+window.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "ap-cybersecurity-theme") applyTheme(event.data.theme);
+});
+// Also react if the root attribute is changed directly.
+new MutationObserver(() => {
+  const theme = document.documentElement.getAttribute("data-theme") || "light";
+  applyTheme(theme);
+}).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+applyTheme(document.documentElement.getAttribute("data-theme") || "light");
+</script>
+<script>
+const TOPICS=[
+{id:"5.1",title:"Application and Data Vulnerabilities and Attacks",lo:"5.1.A Exploit application/file vulnerabilities · 5.1.B Explain application attacks · 5.1.C Assess and document risk",html:`
+<div class="label">5.1.A — Foundational vulnerabilities</div>
+<div class="card"><h3>Unencrypted files, excessive privilege, and weak access control <span class="ek">5.1.A.1–A.3</span></h3>
+<ul>
+<li>An adversary who gains access to a device or drive can read an <b>unencrypted file</b>. Encryption protects the contents if the storage is stolen or accessed.</li>
+<li><b>Administrative users</b> can control system settings and typically access applications and files across the system. Giving ordinary users administrative privileges increases the consequences of account compromise.</li>
+<li><b>Weak access controls</b> may let users view or edit files they should not. This can cause confidentiality breaches, unauthorized modification, destruction, or application disruption.</li>
+</ul>
+<div class="callout"><b>Least-privilege reasoning:</b> the issue is not simply “admins are bad.” The risk comes from giving an account more authority than necessary. If that account is compromised, the adversary inherits its privileges.</div></div>
+
+<div class="label">5.1.B — Four application attacks</div>
+<div class="card"><h3>Data validation is the common defensive concept <span class="ek">5.1.B.1–B.2</span></h3>
+<p>Applications receive user input. <b>Data validation</b> checks that the input meets expected criteria before the application processes it. For example, a field asking for a quantity should reject input that does not fit the expected format. Failure to validate input creates opportunities for injection attacks, where unexpected characters or commands alter program behavior.</p>
+<div class="flow"><b>User input</b> → validation/sanitization → expected data → normal processing<br><b>Unvalidated input</b> → unexpected characters/commands → application interprets attacker-controlled input</div></div>
+
+<div class="card"><h3>SQL injection <span class="ek">5.1.B.3–B.4</span></h3>
+<p><b>SQL</b> is a language used to request information from databases and modify database entries. If an application builds database queries from unvalidated user input, an adversary can insert SQL commands/control characters into the input field.</p>
+<table><tr><th>Potential effect</th><th>CIA connection</th></tr><tr><td class="term">Return unauthorized records</td><td>Confidentiality breach</td></tr><tr><td class="term">Modify database records</td><td>Integrity breach</td></tr><tr><td class="term">Delete records</td><td>Integrity and potentially availability impact</td></tr></table>
+<div class="example"><b>Recognition clue:</b> application logs containing SQL control syntax, quotes, boolean conditions such as <code>OR 1=1</code>, or SQL keywords in an input field can indicate attempted SQL injection. The exact malicious string is less important than recognizing that user input is being interpreted as SQL.</div></div>
+
+<div class="card"><h3>Cross-site scripting (XSS) <span class="ek">5.1.B.5–B.6</span></h3>
+<p>Web pages use HTML and often JavaScript. JavaScript executed in a user's browser can interact with information available to that browser. In an <b>XSS attack</b>, an adversary injects malicious code into a website so a victim's browser executes it.</p>
+<table><tr><th>Type</th><th>Mechanism</th><th>Key clue</th></tr><tr><td class="term">Reflected / Type I</td><td>Malicious code is embedded in a link/request the victim clicks or sends.</td><td>The payload is reflected from the request.</td></tr><tr><td class="term">Stored / Type II</td><td>Malicious code is inserted into the website, such as a comment or forum post.</td><td>Other users visiting the page can be affected.</td></tr></table>
+<div class="callout"><b>Exam distinction:</b> SQL injection targets an application's interaction with a database. XSS targets the browser by causing injected JavaScript/code to execute.</div></div>
+
+<div class="card"><h3>Buffer overflow <span class="ek">5.1.B.7–B.8</span></h3>
+<p>A <b>buffer</b> is a fixed-size section of memory used to hold data. If an application writes more data than the buffer can hold, the extra data can overwrite adjacent memory. A buffer-overflow attack can crash a system or cause code to execute outside the intended security policy, potentially allowing unauthorized file access, modification, or deletion.</p>
+<div class="example"><b>Recognition chain:</b> input exceeds fixed memory allocation → adjacent memory overwritten → crash or unintended code execution → unauthorized actions.</div></div>
+
+<div class="card"><h3>Directory traversal <span class="ek">5.1.B.9–B.10</span></h3>
+<p>Web applications store files in server directories. A browser can request resources through HTTP GET requests. In a <b>directory traversal attack</b>, an adversary manipulates the requested path to move outside the intended directory and attempt to access sensitive files.</p>
+<div class="code">GET /images/../../../etc/passwd HTTP/1.1</div>
+<p>The sequence <code>../</code> means “move up one directory.” Repeated traversal sequences can attempt to reach sensitive locations such as system files.</p>
+</div>
+
+<div class="label">5.1.C — Risk assessment</div>
+<div class="card"><h3>Confidentiality, integrity, availability <span class="ek">5.1.C.1</span></h3>
+<table><tr><th>Risk</th><th>What happens</th></tr><tr><td class="term">Confidentiality</td><td>Unauthorized people can access sensitive data.</td></tr><tr><td class="term">Integrity</td><td>Data can be altered from its intended state.</td></tr><tr><td class="term">Availability</td><td>Data can be destroyed or encrypted so authorized users cannot access it.</td></tr></table></div>
+
+<div class="card"><h3>AP framework risk tiers <span class="ek">5.1.C.2–C.4</span></h3>
+<p><span class="risk high">HIGH</span> Highly sensitive/regulated data exposed through a highly likely exploit.</p>
+<div class="example">Example: technical specifications for a critical aircraft stored unencrypted on a drive.</div>
+<p><span class="risk mod">MODERATE</span> Sensitive data protected by encryption or access controls that are not strong enough.</p>
+<div class="example">Example: customer PII stored in a spreadsheet encrypted with a small key.</div>
+<p><span class="risk low">LOW</span> Less-sensitive information with weaker encryption or access controls.</p>
+<div class="example">Example: low-sensitivity executive memos on an unencrypted share with weak access restrictions.</div>
+<div class="callout"><b>Do not invent risk from the vulnerability alone.</b> Risk depends on what the data/application is worth, how likely exploitation is, and how severe the consequences would be.</div></div>
+
+<div class="label">Must-know distinctions</div>
+<div class="card"><table><tr><td class="term">Validation vs. sanitization</td><td>Validation checks whether input meets expected criteria. Sanitization removes/rejects potentially dangerous input so it cannot manipulate the application.</td></tr><tr><td class="term">SQL injection vs. XSS</td><td>SQL injection manipulates database queries; XSS injects code executed by a victim's browser.</td></tr><tr><td class="term">Buffer overflow vs. directory traversal</td><td>Buffer overflow abuses fixed memory allocation; directory traversal abuses filesystem path handling.</td></tr></table></div>`},
+
+{id:"5.2",title:"Managerial Controls and Access Controls",lo:"5.2.A Data state/classification · 5.2.B Managerial controls · 5.2.C Access-control models · 5.2.D Linux permissions",html:`
+<div class="label">5.2.A — Data state and classification</div>
+<div class="card"><h3>Data at rest, in transit, and in use <span class="ek">5.2.A.1–A.3</span></h3>
+<table><tr><th>State</th><th>Meaning</th><th>Primary security reasoning</th></tr><tr><td class="term">At rest</td><td>Stored on a drive.</td><td>Protect the physical storage from theft/destruction and encrypt the stored data so stolen storage cannot immediately be read.</td></tr><tr><td class="term">In transit</td><td>Being sent from one device to another.</td><td>Protect the communication medium and encrypt the data so interception does not immediately reveal its contents.</td></tr><tr><td class="term">In use</td><td>Being processed by software or a person.</td><td>Use access controls to determine who/what can view or edit it. The framework states that data must be unencrypted to be used.</td></tr></table>
+<div class="callout"><b>Memory hook:</b> rest = storage, transit = movement, use = processing. Encryption is especially relevant to confidentiality at rest/in transit; access control is central to controlling use.</div></div>
+
+<div class="card"><h3>Sensitivity and regulated data <span class="ek">5.2.A.3–A.5</span></h3>
+<p>Organizations classify data according to sensitivity and generally apply stronger protections to more sensitive information. Laws and regulations can impose additional requirements for how certain data are stored, transmitted, and handled.</p>
+<table><tr><th>Data</th><th>Meaning</th><th>Framework examples</th></tr><tr><td class="term">PII</td><td>Personally identifiable information that can identify an individual.</td><td>Name, signature, phone, address, biometrics, SSN, DOB, email.</td></tr><tr><td class="term">PHI</td><td>Information related to an individual's health, treatment, or healthcare payment.</td><td>Test results, treatment records, hospital records, provider notes.</td></tr><tr><td class="term">PCI</td><td>Payment-card information used to process card payments.</td><td>Name, account number, expiration date, address, CVV.</td></tr></table>
+<p>Organizations handling regulated data should label/classify it and establish policies that satisfy applicable legal or regulatory requirements.</p></div>
+
+<div class="label">5.2.B — Managerial controls</div>
+<div class="card"><h3>Cryptography policy <span class="ek">5.2.B.1</span></h3><p>A cryptography policy establishes what cryptographic protections are acceptable. It may specify:</p><ul><li>Approved encryption algorithms for specific uses</li><li>Minimum or maximum key lengths</li><li>Key-generation requirements and parameters</li><li>Key-storage requirements</li></ul></div>
+<div class="card"><h3>Web application security policy <span class="ek">5.2.B.2</span></h3><p>A web application security policy defines requirements for testing and mitigating application vulnerabilities. It may specify when an application requires a security assessment, how quickly vulnerabilities must be remediated according to risk, and which tools or security frameworks are used.</p></div>
+
+<div class="label">5.2.C — Access-control models</div>
+<div class="card"><h3>Access-control vocabulary <span class="ek">5.2.C.1</span></h3><p><b>Subjects</b> are users or applications requesting access. <b>Objects</b> are files or applications being accessed. <b>Operations</b> are actions such as view/read, modify/write, add, or remove/delete.</p><div class="flow"><b>Subject</b> → requests → <b>operation</b> → on → <b>object</b></div></div>
+<div class="card"><h3>Four access-control models <span class="ek">5.2.C.2–C.5</span></h3>
+<table><tr><th>Model</th><th>How access is determined</th><th>Scenario clue</th></tr><tr><td class="term">RBAC</td><td>Permissions are assigned to roles; subjects receive roles.</td><td>“Accountants can access payroll; interns cannot.”</td></tr><tr><td class="term">RuBAC</td><td>Access is determined by explicit rules/conditions.</td><td>“Only during business hours and only from corporate devices.”</td></tr><tr><td class="term">DAC</td><td>Owners of objects can determine who else has access.</td><td>“The file owner chooses which users can read it.”</td></tr><tr><td class="term">MAC</td><td>Access is determined by centrally assigned classifications/labels and security clearances; users cannot change permissions at will.</td><td>“Confidential/Secret classifications control access.”</td></tr></table>
+<div class="callout"><b>Exam trap:</b> “role” = RBAC; “condition/rule” such as time or device = RuBAC; “owner chooses” = DAC; “classification/clearance” = MAC.</div></div>
+
+<div class="card"><h3>Bell-LaPadula model <span class="ek">5.2.C.6</span></h3><p>Bell-LaPadula is an access-control model designed to protect <b>confidentiality</b>. Its two key properties are commonly remembered as:</p><table><tr><td class="term">Simple Security Property</td><td><b>No read up.</b> A subject cannot read an object at a higher classification level.</td></tr><tr><td class="term">* (Star) Security Property</td><td><b>No write down.</b> A subject cannot write information to an object at a lower classification level.</td></tr></table><div class="callout"><b>Mnemonic:</b> “write up, read down” (WURD). A Secret subject may read Confidential data, but may not write Secret information down into a Confidential object.</div></div>
+
+<div class="label">5.2.D — Linux permissions and chmod</div>
+<div class="card"><h3>Reading Linux permissions <span class="ek">5.2.D.1–D.4</span></h3><p>Linux permissions use three default entities in this order: <b>owner, group, others</b>. Each entity can have read (<code>r</code>), write (<code>w</code>), and execute (<code>x</code>) permissions.</p>
+<div class="code">-rwxr-x---</div>
+<p>Break it into <code>rwx | r-x | ---</code>: owner = read/write/execute; group = read/execute; others = no access.</p>
+<p><code>ls -l</code> displays the current permissions. If a <code>+</code> appears after the permission string, additional permissions have been set and can be viewed with <code>getfacl</code>.</p></div>
+
+<div class="card"><h3>chmod numeric method <span class="ek">5.2.D.5–D.6</span></h3>
+<table><tr><th>Value</th><th>Permission</th></tr><tr><td class="term">0</td><td>---</td></tr><tr><td class="term">1</td><td>--x</td></tr><tr><td class="term">2</td><td>-w-</td></tr><tr><td class="term">3</td><td>-wx</td></tr><tr><td class="term">4</td><td>r--</td></tr><tr><td class="term">5</td><td>r-x</td></tr><tr><td class="term">6</td><td>rw-</td></tr><tr><td class="term">7</td><td>rwx</td></tr></table>
+<p>Syntax: <code>chmod ### filename</code>. First digit = owner, second = group, third = others.</p>
+<div class="code">chmod 750 test
+owner  = 7 = rwx
+group  = 5 = r-x
+others = 0 = ---
+
+chmod 640 report.txt
+owner  = 6 = rw-
+group  = 4 = r--
+others = 0 = ---</div></div>
+
+<div class="card"><h3>chmod symbolic method <span class="ek">5.2.D.7</span></h3><p>Entities: <code>u</code> owner, <code>g</code> group, <code>o</code> others, <code>a</code> all. Operators: <code>+</code> add, <code>-</code> remove. Permissions: <code>r</code>, <code>w</code>, <code>x</code>.</p><div class="code">chmod ug+rx testfile
+# add read + execute for owner and group
+
+chmod o-r testfile
+# remove read permission from others</div></div>
+
+<div class="example"><b>Worked permission problem:</b> If the owner needs read/write, the group needs read-only, and everyone else needs no access, use <code>rw- | r-- | ---</code> → 6-4-0 → <code>chmod 640 filename</code>.</div>`},
+
+{id:"5.3",title:"Protecting Stored Data with Symmetric Cryptography",lo:"5.3.A Explain encryption · 5.3.B Apply symmetric encryption algorithms",html:`
+<div class="label">5.3.A — Cryptography fundamentals</div>
+<div class="card"><h3>Plaintext → ciphertext → plaintext <span class="ek">5.3.A.1–A.3</span></h3><p><b>Cryptography</b> is used to hide information. <b>Encryption</b> transforms readable plaintext into ciphertext. <b>Decryption</b> reverses the process using the appropriate key.</p><div class="flow"><b>Plaintext</b> + encryption algorithm + <b>key</b> → <b>ciphertext</b><br><b>Ciphertext</b> + decryption algorithm + appropriate <b>key</b> → <b>plaintext</b></div><p>The <b>keyspace</b> is the number of possible keys. A larger keyspace means more possible guesses and therefore makes random key discovery more difficult.</p></div>
+
+<div class="card"><h3>Symmetric vs. asymmetric encryption <span class="ek">5.3.A.4</span></h3><table><tr><th>Symmetric</th><th>Asymmetric</th></tr><tr><td>One shared key encrypts and decrypts.</td><td>Two related keys are used; one encrypts and the other decrypts.</td></tr><tr><td>Efficient for protecting data/files.</td><td>Useful when parties need secure communication without first sharing a secret key.</td></tr><tr><td>Main challenge: securely sharing the secret key.</td><td>Main challenge: protecting the private key.</td></tr></table></div>
+
+<div class="card"><h3>Block vs. stream encryption <span class="ek">5.3.A.5</span></h3><table><tr><td class="term">Block encryption</td><td>Processes information in fixed-size chunks called blocks. Each input block produces an output block.</td></tr><tr><td class="term">Stream encryption</td><td>Processes input continuously, producing output one element at a time.</td></tr></table></div>
+
+<div class="label">5.3.B — AES</div>
+<div class="card"><h3>Advanced Encryption Standard (AES) <span class="ek">5.3.B.1–B.2</span></h3><p><b>AES</b> is the most common symmetric encryption algorithm named in the framework. It is a <b>symmetric block cipher</b> that encrypts data in <b>128-bit blocks (16 bytes)</b>. AES can use different key lengths. Within AES, longer keys provide stronger protection but require more computational work.</p><table><tr><th>Concept</th><th>What to remember</th></tr><tr><td class="term">AES-128</td><td>128-bit key; less secure than AES-256 within the AES family.</td></tr><tr><td class="term">AES-256</td><td>256-bit key; larger keyspace than AES-128.</td></tr><tr><td class="term">Block size</td><td>AES processes 128 bits / 16 bytes at a time, regardless of whether the key is 128, 192, or 256 bits.</td></tr></table><div class="callout"><b>Do not confuse key length with block size.</b> AES-256 means a 256-bit key, not a 256-bit block. AES still processes 128-bit blocks.</div></div>
+
+<div class="card"><h3>Applying AES with OpenSSL <span class="ek">5.3.B.3–B.4</span></h3><p>The framework gives command-line examples using OpenSSL. The password supplied in these examples is used to derive the encryption key.</p><div class="code"># Encrypt
+openssl enc -aes-128-cbc -e -in test -k password -out test.enc
+
+# Decrypt
+openssl enc -aes-128-cbc -d -in test.enc -k password -out text</div><p>For the AP exam, focus on recognizing the workflow: the same symmetric secret is needed to decrypt what was encrypted.</p></div>
+
+<div class="label">Core cryptography distinctions</div>
+<div class="card"><table><tr><td class="term">Encryption</td><td>Protects confidentiality by making data unreadable without the appropriate key.</td></tr><tr><td class="term">Hashing</td><td>Produces a digest used for verification/integrity or password storage; it is not reversible encryption.</td></tr><tr><td class="term">Keyspace</td><td>Number of possible keys.</td></tr><tr><td class="term">Key length</td><td>More bits means a larger keyspace for the same algorithm.</td></tr></table></div>`},
+
+{id:"5.4",title:"Asymmetric Cryptography",lo:"5.4.A Choose the correct key · 5.4.B Explain key length · 5.4.C Apply asymmetric encryption",html:`
+<div class="label">5.4.A — Public and private keys</div>
+<div class="card"><h3>The key-pair model <span class="ek">5.4.A.1–A.3</span></h3><p>Asymmetric encryption allows secure communication <b>without prearranging a shared secret key</b>. Each receiver generates a pair of related keys: a <b>public key</b> and a <b>private key</b>.</p><table><tr><td class="term">Public key</td><td>Published openly. Others can use it to encrypt information intended for the owner.</td></tr><tr><td class="term">Private key</td><td>Kept secret by its owner. It is used to decrypt information encrypted with the paired public key.</td></tr></table><div class="callout"><b>Private-key rule:</b> if a private key is exposed, shared, stolen, corrupted, or compromised, the key pair must be deleted and a new pair generated. The security of the scheme depends on the private key remaining secret.</div></div>
+
+<div class="card"><h3>Which key do I use?</h3><table><tr><th>Goal</th><th>Correct operation</th></tr><tr><td class="term">Send Bob a secret message</td><td>Encrypt with <b>Bob's public key</b>. Bob decrypts with Bob's private key.</td></tr><tr><td class="term">Receive a secret message</td><td>Decrypt using <b>your private key</b>.</td></tr></table><div class="flow"><b>Alice</b> encrypts with <b>Bob's public key</b> → ciphertext → <b>Bob</b> decrypts with <b>Bob's private key</b></div></div>
+
+<div class="label">5.4.B — Key length and keyspace</div>
+<div class="card"><h3>Why longer keys are harder to guess <span class="ek">5.4.B.1–B.5</span></h3><p>An <b>n-bit binary key</b> has <b>2<sup>n</sup></b> possible values. If an adversary guesses randomly, the average number of guesses needed is approximately half the keyspace, <b>2<sup>n−1</sup></b>.</p><table><tr><td class="term">128-bit key</td><td>2<sup>128</sup> possible keys.</td></tr><tr><td class="term">256-bit key</td><td>2<sup>256</sup> possible keys.</td></tr></table><p>Longer keys generally increase security but also increase computational work. As processing power improves, recommended key lengths can increase.</p><div class="callout"><b>Critical AP rule:</b> compare key lengths only within the <i>same cryptographic algorithm</i>. AES-256 cannot be declared “more secure” than RSA-2048 simply because 256 is smaller/larger; those numbers describe different algorithms and are not directly comparable.</div></div>
+
+<div class="label">5.4.C — Applying asymmetric encryption</div>
+<div class="card"><h3>RSA, ECC, and practical use <span class="ek">5.4.C.1</span></h3><p>Common asymmetric algorithms include <b>RSA</b> and <b>elliptic curve cryptography (ECC)</b>. Asymmetric algorithms are used in applications including digital signatures and digital certificates.</p><p>For the AP framework's encrypted-message scenario, the important sequence is:</p><ol><li>Receiver generates an asymmetric key pair.</li><li>Receiver securely stores the private key and publishes the public key.</li><li>Sender obtains the receiver's public key.</li><li>Sender encrypts the message using the receiver's public key.</li><li>Receiver decrypts using the receiver's private key.</li></ol></div>
+
+<div class="card"><h3>OpenSSL-style workflow</h3><div class="code"># Generate a key pair (conceptual example)
+# Share the PUBLIC key only.
+
+# Sender encrypts using receiver's public key.
+# Receiver decrypts using their own PRIVATE key.</div><p>The exam is more likely to test <b>which key</b> is used and why than command syntax itself. Never transmit or publish a private key.</p></div>
+
+<div class="label">Asymmetric cryptography traps</div>
+<div class="card"><table><tr><td class="term">“Encrypt with my private key so only I can read it.”</td><td>Wrong for confidentiality. Use the recipient's public key.</td></tr><tr><td class="term">“Anyone can have my private key because my public key is public.”</td><td>Wrong. Public/private secrecy is asymmetric: public is shared; private must remain secret.</td></tr><tr><td class="term">“RSA-4096 is automatically twice as secure as RSA-2048.”</td><td>Do not reason linearly. Keyspace grows exponentially with key bits.</td></tr></table></div>`},
+
+{id:"5.5",title:"Protecting Applications",lo:"5.5.A Secure by design/default · 5.5.B Input sanitization",html:`
+<div class="label">5.5.A — Secure by design</div>
+<div class="card"><h3>Security is a development principle, not a patch <span class="ek">5.5.A.1–A.2</span></h3><p><b>Secure by design</b> means security is incorporated throughout product development, including the design phase, rather than being added only after a product is built.</p><table><tr><td class="term">1. Ownership</td><td>Companies should take responsibility for customer security outcomes and build products that meet customers' security needs.</td></tr><tr><td class="term">2. Transparency + accountability</td><td>Organizations should share relevant security news and updates quickly so affected users can protect themselves.</td></tr><tr><td class="term">3. Leadership + structure</td><td>Organizations need leadership and organizational structures focused on security with a security-first posture.</td></tr></table></div>
+
+<div class="card"><h3>Secure by default <span class="ek">5.5.A.3</span></h3><p><b>Secure by default</b> means security features are enabled automatically. A device or application should be reasonably secure “out of the box” rather than requiring every user to discover and enable important protections manually.</p><div class="callout"><b>Design vs. default:</b> secure by design is the broader development philosophy. Secure by default is specifically about the initial configuration users receive.</div></div>
+
+<div class="label">5.5.B — User-input sanitization</div>
+<div class="card"><h3>Why special characters matter <span class="ek">5.5.B.1</span></h3><p>Applications often surround or process user input using <b>control characters</b>. The framework specifically names the single quote, double quote, and semicolon. If an application interprets these characters as part of a command rather than ordinary data, an adversary may manipulate the application's behavior.</p></div>
+<div class="card"><h3>Sanitization and attack prevention <span class="ek">5.5.B.2</span></h3><p>Programmers should use a verification function to ensure input meets expected criteria and does not contain control characters that could manipulate the system. The function can:</p><ul><li>Remove potentially malicious characters, or</li><li>Reject the input and require the user to provide a different value.</li></ul><p>This can protect against <b>SQL injection, XSS, and directory traversal</b>.</p><div class="flow"><b>Untrusted input</b> → validate expected format → sanitize/reject dangerous content → process safe input</div></div>
+
+<div class="card"><h3>Match the defense to the attack</h3><table><tr><th>Attack</th><th>Why sanitization helps</th></tr><tr><td class="term">SQL injection</td><td>Prevents SQL control characters/commands from being interpreted as part of the database query.</td></tr><tr><td class="term">XSS</td><td>Prevents malicious script/code from being accepted and later executed in a browser.</td></tr><tr><td class="term">Directory traversal</td><td>Prevents malicious path-control sequences from escaping the intended directory.</td></tr></table></div>
+
+<div class="callout"><b>Important limitation:</b> input sanitization is one layer of defense. Strong application security also depends on access controls, secure design, secure defaults, patching, and detection. Do not assume one control eliminates every application vulnerability.</div>`},
+
+{id:"5.6",title:"Detecting Attacks on Data and Applications",lo:"5.6.A Data detection · 5.6.B Control selection · 5.6.C Impact · 5.6.D Hash verification · 5.6.E Application logs",html:`
+<div class="label">5.6.A — Detecting attacks on data</div>
+<div class="card"><h3>Accounting and access logs <span class="ek">5.6.A.1</span></h3><p><b>Accounting</b> is recording and monitoring user activity. Devices can log when data are accessed and by whom. Reviewing those logs can reveal attempts to access, copy, move, or delete data.</p><table><tr><th>Suspicious activity</th><th>Why it matters</th></tr><tr><td class="term">Accessing unusual files</td><td>The user may be exploring data outside their normal responsibilities.</td></tr><tr><td class="term">Unusual time/location/device</td><td>Activity deviates from the user's normal behavior.</td></tr><tr><td class="term">Copying sensitive files</td><td>Could indicate data theft/exfiltration.</td></tr><tr><td class="term">Deleting sensitive files</td><td>Could indicate destructive activity or an attempt to hide evidence.</td></tr></table></div>
+
+<div class="card"><h3>Honeypots <span class="ek">5.6.A.2</span></h3><p>A <b>honeypot file</b> appears to contain valuable information such as credit-card data, PII, or passwords, but its contents are fake. Because legitimate users have no reason to access it, an access attempt can be treated as an indicator of malicious activity.</p><div class="callout"><b>Why it is powerful:</b> a honeypot can have a very low false-positive rate when access is genuinely unauthorized because there is no legitimate reason for normal users to open it.</div></div>
+
+<div class="card"><h3>Hashes as integrity evidence <span class="ek">5.6.A.3</span></h3><p>A cryptographic hash function produces a repeatable digest. If a file's hash changes unexpectedly, the file was altered and that change can be an indicator of malicious activity.</p><div class="flow"><b>Known-good file</b> → calculate hash → record digest<br>Later → calculate hash again → compare<br><b>Same hash</b> → no detected change &nbsp;&nbsp; <b>Different hash</b> → file changed</div><div class="callout"><b>Critical limitation:</b> a hash detects alteration, not every kind of theft. An adversary can view/copy a file without modifying it, and the hash may remain unchanged.</div></div>
+
+<div class="label">5.6.B–C — Selecting and evaluating detection controls</div>
+<div class="card"><h3>Three selection criteria <span class="ek">5.6.B.1–B.3</span></h3><table><tr><td class="term">Cost</td><td>Honeypots and hash checks are relatively inexpensive. DLP services can provide stronger monitoring at higher cost.</td></tr><tr><td class="term">Sensitivity / criticality</td><td>More sensitive or critical data/applications are more attractive targets and should generally receive closer monitoring.</td></tr><tr><td class="term">Classification</td><td>Private, educational, healthcare, and financial data may have legal/regulatory monitoring requirements.</td></tr></table></div>
+
+<div class="card"><h3>Real-time vs. retrospective detection <span class="ek">5.6.C.1–C.2</span></h3><table><tr><th>Method</th><th>Timing</th><th>Strength</th></tr><tr><td class="term">Honeypot</td><td>Near instantaneous</td><td>Can alert immediately when someone accesses the fake data.</td></tr><tr><td class="term">Real-time DLP / automated log analysis</td><td>During the attack</td><td>Allows prompt response and may stop an attack before more damage occurs.</td></tr><tr><td class="term">Retrospective log analysis</td><td>After activity</td><td>Can reconstruct suspicious access but may be too slow to prevent the original damage.</td></tr><tr><td class="term">Hash comparison</td><td>After a comparison is made</td><td>Strong evidence that a file changed, but does not identify every type of compromise.</td></tr></table><p>Because organizations generate large amounts of log data, automation can be necessary to analyze logs at an effective speed.</p></div>
+
+<div class="label">5.6.D — Verifying whether a file changed</div>
+<div class="card"><h3>Hash verification workflow <span class="ek">5.6.D.1–D.3</span></h3><p>Hashing is repeatable: the same input produces the same output for the same hash function. Calculate a file's hash, record it, and calculate it again later. A changed hash indicates the file was altered between measurements.</p><div class="code">Windows PowerShell:
+Get-FileHash testfile -Algorithm SHA256
+
+BASH:
+sha256sum testfile
+
+zsh:
+shasum -a 256 testfile</div><div class="callout"><b>Exam reasoning:</b> if two hash values for the same file are different, the file changed. If two different files have the same hash, that is a collision; it does not prove the files are identical.</div></div>
+
+<div class="label">5.6.E — Application-attack indicators in logs</div>
+<div class="card"><h3>SQL injection indicators <span class="ek">5.6.E.1</span></h3><p>Review application/server logs for suspicious user input containing SQL control characters and syntax.</p><table><tr><td class="term">Quotes</td><td>Single or double quote characters can be used to alter query syntax.</td></tr><tr><td class="term">Boolean conditions</td><td>Examples include <code>OR 1=1</code>.</td></tr><tr><td class="term">SQL comment marker</td><td><code>--</code> can cause the remainder of a SQL statement to be treated as a comment.</td></tr><tr><td class="term">SQL keywords</td><td>Words such as <code>WHERE</code>, <code>IN</code>, and <code>FROM</code> appearing unexpectedly in user input.</td></tr></table></div>
+
+<div class="card"><h3>XSS indicators <span class="ek">5.6.E.2</span></h3><p>Review user input for suspicious HTML/script tags, especially <code>&lt;script&gt; ... &lt;/script&gt;</code>. Such input can indicate an attempt to inject JavaScript that a browser will execute.</p></div>
+
+<div class="card"><h3>Buffer-overflow indicators <span class="ek">5.6.E.3</span></h3><p>For web applications, examine the amount of data submitted in requests. Suspiciously long strings can indicate an attempt to exceed a memory buffer.</p><table><tr><td class="term">URL length</td><td>Unusually long URL.</td></tr><tr><td class="term">Cookie length</td><td>Unusually large cookie data.</td></tr><tr><td class="term">Query-string length</td><td>Unexpectedly large query parameters.</td></tr><tr><td class="term">Total request length</td><td>Request body/overall size is unusually large.</td></tr></table></div>
+
+<div class="card"><h3>Directory traversal indicators <span class="ek">5.6.E.4</span></h3><p>Review application/server logs for HTTP GET requests containing repeated <code>../</code> path sequences. These indicate an attempt to move upward through the server filesystem.</p><div class="code">GET /images/../../../../etc/passwd HTTP/1.1</div></div>
+
+<div class="label">Detection master table</div>
+<div class="card"><table><tr><th>Evidence in logs</th><th>Likely attack</th></tr><tr><td class="term"><code>OR 1=1</code>, quotes, <code>--</code>, SQL keywords</td><td>SQL injection</td></tr><tr><td class="term"><code>&lt;script&gt;</code> or suspicious script tags</td><td>XSS</td></tr><tr><td class="term">Unusually long URL/cookie/query/request</td><td>Possible buffer overflow</td></tr><tr><td class="term"><code>../</code> sequences in GET paths</td><td>Directory traversal</td></tr><tr><td class="term">Unusual file access/copy/delete</td><td>Possible data compromise/exfiltration</td></tr><tr><td class="term">Unexpected file hash</td><td>File alteration</td></tr><tr><td class="term">Access to fake valuable file</td><td>Honeypot-triggered malicious activity</td></tr></table></div>
+
+<div class="label">What detection can and cannot tell you</div>
+<div class="card"><table><tr><td class="term">Hash changed</td><td>You can conclude the file changed. You cannot conclude exactly who changed it or why without additional evidence.</td></tr><tr><td class="term">Honeypot accessed</td><td>Strong indicator of suspicious activity because legitimate access should not occur.</td></tr><tr><td class="term">SQL syntax in input</td><td>Evidence of an attempted SQL injection; it does not necessarily prove the attack succeeded.</td></tr><tr><td class="term">403 response to traversal request</td><td>Evidence of an attempted traversal even if the server blocked it.</td></tr></table></div>`}
+];
+
+let current=0;
+const rail=document.getElementById("rail"), topics=document.getElementById("topics");
+TOPICS.forEach((t,i)=>{
+  const b=document.createElement("button");b.className="rail-btn";b.innerHTML=`<span class="n">${t.id}</span>${t.title}`;b.onclick=()=>{current=i;render()};rail.appendChild(b);
+  const s=document.createElement("section");s.className="topic";s.innerHTML=`<div class="head"><div class="ey">Topic ${t.id}</div><h2>${t.title}</h2><div class="lo">${t.lo}</div></div>${t.html}`;topics.appendChild(s);
+});
+function render(){document.querySelectorAll(".topic").forEach((x,i)=>x.classList.toggle("active",i===current));document.querySelectorAll(".rail-btn").forEach((x,i)=>x.classList.toggle("active",i===current));document.getElementById("pos").textContent=`Topic ${TOPICS[current].id} · ${current+1} of ${TOPICS.length}`;document.getElementById("prev").disabled=current===0;document.getElementById("next").disabled=current===TOPICS.length-1;window.scrollTo({top:0,behavior:"instant"})}
+document.getElementById("prev").onclick=()=>{if(current){current--;render()}};document.getElementById("next").onclick=()=>{if(current<TOPICS.length-1){current++;render()}};render();
+</script>
+</body>
+</html>
